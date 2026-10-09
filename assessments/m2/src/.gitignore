@@ -1,0 +1,9 @@
+*.o
+*.d
+*.dep
+*.i
+*.asm
+*.map
+*.out
+.platform-HOST
+.platform-MSP432

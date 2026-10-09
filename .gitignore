@@ -1,0 +1,10 @@
+*.o
+*.out
+*.map
+*.d
+*.dep
+*.i
+*.asm
+.config-*
+__pycache__/
+.DS_Store

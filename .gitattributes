@@ -1,0 +1,4 @@
+**/include/CMSIS/** linguist-vendored
+**/include/msp432/** linguist-vendored
+**/src/*msp432*.c linguist-vendored
+**/*.lds linguist-vendored

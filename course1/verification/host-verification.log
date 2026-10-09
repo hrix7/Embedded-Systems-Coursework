@@ -1,0 +1,121 @@
+make -C src clean
+make[1]: Entering directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+rm -f *.o *.d *.dep *.i *.asm *.map *.out .config-*
+make[1]: Leaving directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+make -C src build
+make[1]: Entering directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+rm -f .config-*
+touch .config-HOST-1-1
+gcc -I../include/common -DHOST -DCOURSE1 -DVERBOSE -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF main.d -MT "main.o main.i main.asm" -c main.c -o main.o
+gcc -I../include/common -DHOST -DCOURSE1 -DVERBOSE -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF memory.d -MT "memory.o memory.i memory.asm" -c memory.c -o memory.o
+gcc -I../include/common -DHOST -DCOURSE1 -DVERBOSE -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF data.d -MT "data.o data.i data.asm" -c data.c -o data.o
+gcc -I../include/common -DHOST -DCOURSE1 -DVERBOSE -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF stats.d -MT "stats.o stats.i stats.asm" -c stats.c -o stats.o
+gcc -I../include/common -DHOST -DCOURSE1 -DVERBOSE -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF course1.d -MT "course1.o course1.i course1.asm" -c course1.c -o course1.o
+gcc -Wall -Werror -g -O0 -std=c99 main.o memory.o data.o stats.o course1.o -Wl,-Map=course1.map -o course1.out
+size course1.out
+   text	   data	    bss	    dec	    hex	filename
+   8145	    640	      8	   8793	   2259	course1.out
+make[1]: Leaving directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+
+test_data1();
+  Initial number: -4096
+  Final Decimal number: -4096
+test_data2():
+  Initial Decimal number: 123456
+  Final Decimal number: 123456
+test_memmove1() - NO OVERLAP
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+test_memmove2() -OVERLAP END OF SRC BEGINNING OF DST
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 
+0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 24 25 26 27 28 29 30 31 
+test_memove3() - OVERLAP END OF DEST BEGINNING OF SRC
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 
+8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 
+test_memcopy()
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+test_memset()
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 
+255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 
+255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+test_reverse()
+63 115 114 51 84 67 114 38 72 99 32 102 111 0 32 51 114 117 116 120 33 77 32 64 32 36 124 32 36 105 104 84 
+84 104 105 36 32 124 36 32 64 32 77 33 120 116 117 114 51 32 0 111 102 32 99 72 38 114 67 84 51 114 115 63 
+--------------------------------
+Test Results:
+  PASSED: 8 / 8
+  FAILED: 0 / 8
+--------------------------------
+make -C src build
+make[1]: Entering directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+rm -f .config-*
+touch .config-HOST-1-0
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF main.d -MT "main.o main.i main.asm" -c main.c -o main.o
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF memory.d -MT "memory.o memory.i memory.asm" -c memory.c -o memory.o
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF data.d -MT "data.o data.i data.asm" -c data.c -o data.o
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF stats.d -MT "stats.o stats.i stats.asm" -c stats.c -o stats.o
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF course1.d -MT "course1.o course1.i course1.asm" -c course1.c -o course1.o
+gcc -Wall -Werror -g -O0 -std=c99 main.o memory.o data.o stats.o course1.o -Wl,-Map=course1.map -o course1.out
+size course1.out
+   text	   data	    bss	    dec	    hex	filename
+   7800	    632	      8	   8440	   20f8	course1.out
+make[1]: Leaving directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+
+test_data1();
+test_data2():
+test_memmove1() - NO OVERLAP
+test_memmove2() -OVERLAP END OF SRC BEGINNING OF DST
+test_memove3() - OVERLAP END OF DEST BEGINNING OF SRC
+test_memcopy()
+test_memset()
+test_reverse()
+--------------------------------
+Test Results:
+  PASSED: 8 / 8
+  FAILED: 0 / 8
+--------------------------------
+make -C src build
+make[1]: Entering directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+rm -f .config-*
+touch .config-HOST-0-0
+gcc -I../include/common -DHOST -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF main.d -MT "main.o main.i main.asm" -c main.c -o main.o
+gcc -I../include/common -DHOST -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF memory.d -MT "memory.o memory.i memory.asm" -c memory.c -o memory.o
+gcc -I../include/common -DHOST -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF data.d -MT "data.o data.i data.asm" -c data.c -o data.o
+gcc -I../include/common -DHOST -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF stats.d -MT "stats.o stats.i stats.asm" -c stats.c -o stats.o
+gcc -I../include/common -DHOST -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF course1.d -MT "course1.o course1.i course1.asm" -c course1.c -o course1.o
+gcc -Wall -Werror -g -O0 -std=c99 main.o memory.o data.o stats.o course1.o -Wl,-Map=course1.map -o course1.out
+size course1.out
+   text	   data	    bss	    dec	    hex	filename
+   7797	    632	      8	   8437	   20f5	course1.out
+make[1]: Leaving directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+make -C src build
+make[1]: Entering directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+rm -f .config-*
+touch .config-HOST-1-0
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF main.d -MT "main.o main.i main.asm" -c main.c -o main.o
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF memory.d -MT "memory.o memory.i memory.asm" -c memory.c -o memory.o
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF data.d -MT "data.o data.i data.asm" -c data.c -o data.o
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF stats.d -MT "stats.o stats.i stats.asm" -c stats.c -o stats.o
+gcc -I../include/common -DHOST -DCOURSE1 -Wall -Werror -g -O0 -std=c99 -MMD -MP -MF course1.d -MT "course1.o course1.i course1.asm" -c course1.c -o course1.o
+gcc -Wall -Werror -g -O0 -std=c99 main.o memory.o data.o stats.o course1.o -Wl,-Map=course1.map -o course1.out
+size course1.out
+   text	   data	    bss	    dec	    hex	filename
+   7800	    632	      8	   8440	   20f8	course1.out
+make[1]: Leaving directory '/workspace/scratch/63f66f349a0c/work/ese-coursera-course1/course1/src'
+
+test_data1();
+test_data2():
+test_memmove1() - NO OVERLAP
+test_memmove2() -OVERLAP END OF SRC BEGINNING OF DST
+test_memove3() - OVERLAP END OF DEST BEGINNING OF SRC
+test_memcopy()
+test_memset()
+test_reverse()
+--------------------------------
+Test Results:
+  PASSED: 8 / 8
+  FAILED: 0 / 8
+--------------------------------
+PASS: 82225 memory-overlap cases; all bases 2..16 and signed limits; allocation, reverse, fill, copy and statistics checks.
+PASS: VERBOSE and COURSE1 switches, including rebuilds without cleaning.

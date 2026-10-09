@@ -1,0 +1,7 @@
+*.o
+*.d
+*.i
+*.asm
+*.map
+*.out
+.config-*
