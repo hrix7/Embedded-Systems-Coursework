@@ -1,23 +1,29 @@
-# Embedded Systems Coursework
+# Embedded C Build & Memory System
 
 **Hritika Adhikary · C · GCC · GNU Make · MSP432**
 
-I am developing my embedded-software foundations through **Introduction to Embedded Systems Software and Development Environments**, University of Colorado Boulder on Coursera. This repository brings together my build-system coursework and the Course 1 final assessment, with source code, reproducible HOST tests and documented target-build results.
+I built a configurable C project that runs on a Linux host and cross-compiles for the MSP432. It combines a reusable build system with memory utilities, integer conversion functions and statistical operations.
 
-[Profile](https://github.com/hrix7) · [Biomedical portfolio](https://github.com/hrix7/Biomedical-Engineering-Portfolio) · [Official course starter](https://github.com/afosdick/ese-coursera-course1)
+[Source code](course1/src/) · [Tests](course1/tests/) · [Verification](course1/VERIFICATION.md) · [Biomedical portfolio](https://github.com/hrix7/Biomedical-Engineering-Portfolio#certifications)
 
-## Course work
+## Features
 
-| Coursework | Implementation and learning focus | Evidence |
-| :--- | :--- | :--- |
-| [Module 2 — Build system](assessments/m2/) | Platform-selectable Makefiles, source lists, dependency generation, preprocessing, assembly and linking | [Build notes](assessments/m2/README-assignment.md) · [Prior verification](assessments/m2/VERIFICATION.txt) |
-| [Course 1 — Expanded build system and memory](course1/) | Pointer-based memory operations, allocation, statistics, signed integer/ASCII conversion in bases 2–16, configurable builds | [Source and commands](course1/README.md) · [Tests](course1/tests/) · [Verification](course1/VERIFICATION.md) |
+- **Dual-platform builds:** select HOST or MSP432 with GNU Make.
+- **Build automation:** dependency tracking, preprocessing, assembly, compilation and linking.
+- **Memory utilities:** overlap-safe movement, copy, fill, zero, reverse and checked allocation.
+- **Data conversion:** signed integer/ASCII conversion across bases 2–16.
+- **Statistics:** descending sort, minimum, maximum, mean and median.
+- **Configurable output:** switch verbose output and application execution without manually cleaning the build.
 
-**Status:** final-assessment implementation prepared; course completion, grading and certificate issuance are not yet recorded here.
+## Completed work
 
-## Run the final assessment
+I integrated the C application with the build system, implemented the memory and conversion functions, and added independent edge-case tests with Codex assistance.
 
-Requires GCC, GNU Make and Python 3 on a Linux development environment.
+The HOST test suite passed on **9 October 2026**: eight supplied tests, **82,225 memory-overlap cases**, signed conversion limits, allocation and statistics checks, plus AddressSanitizer/UndefinedBehaviorSanitizer checks. The earlier MSP432 compile-and-link result is recorded in [VERIFICATION.md](course1/VERIFICATION.md). Physical hardware execution remains pending.
+
+## Build and run
+
+Requires GCC, GNU Make and Python 3.
 
 ```sh
 cd course1
@@ -26,19 +32,30 @@ make build PLATFORM=HOST COURSE1=1 VERBOSE=1
 make test
 ```
 
-The HOST suite was rerun on **9 October 2026**: all eight supplied tests passed, together with 82,225 memory-overlap cases, integer-conversion edge cases and AddressSanitizer/UndefinedBehaviorSanitizer checks. The runner also checks configuration changes without cleaning.
+For an MSP432 build, install the GNU Arm Embedded toolchain, then run:
 
-MSP432 cross-compilation requires `arm-none-eabi-gcc`. The [8 October verification record](course1/VERIFICATION.md) documents the earlier ARM build. Physical-device execution has not been performed.
+```sh
+make clean
+make build PLATFORM=MSP432 COURSE1=1
+```
 
-## What this work covers
+## Project structure
 
-- **Build tooling:** HOST/MSP432 selection, dependency tracking and build configuration changes.
-- **Memory:** overlap-safe movement, copy, fill, zero, reverse and checked allocation.
-- **Data representation:** signed conversions across bases 2–16, including integer limits.
-- **Verification:** supplied assessment tests plus independent edge-case tests and sanitizers.
+| Location | Contents |
+| :--- | :--- |
+| [course1/src](course1/src/) | C implementation and Makefiles |
+| [course1/include/common](course1/include/common/) | Public interfaces and platform definitions |
+| [course1/tests](course1/tests/) | Edge-case tests and repeatable verification |
+| [assessments/m2](assessments/m2/) | Earlier build-system implementation |
 
-## Authorship and attribution
+## Related certification
 
-Coursework portfolio: **Hritika Adhikary**. Course context: **University of Colorado Boulder / Coursera**. Instructor and original starter author: **Alex Fosdick**.
+**Introduction to Embedded Systems Software and Development Environments**  
+University of Colorado Boulder · Coursera  
+**Credential:** certificate verification pending.
 
-New implementations, tests and integration were developed with **ChatGPT/Codex assistance**. Supplied tests and platform support remain attributed to their original authors. See [ATTRIBUTION.md](ATTRIBUTION.md) for scope and licensing. The code is presented as a learning portfolio; it is not independently authored third-party course material or a medical-device product.
+## Author & attribution
+
+**Hritika Adhikary** · Project developed through University of Colorado Boulder / Coursera training.
+
+Original starter: Alex Fosdick / University of Colorado. Implementation, tests and integration include ChatGPT/Codex assistance. Original source and platform-support notices are retained; see [ATTRIBUTION.md](ATTRIBUTION.md).
