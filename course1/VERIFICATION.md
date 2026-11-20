@@ -25,3 +25,9 @@ modern-GCC floating-point register warning without disabling warnings.
 Raw HOST, ARM build, and ARM ELF-header output is under verification/.
 Generated executable/object files were cleaned before packaging. The toolchain
 is not bundled; use GCC/Make for HOST and arm-none-eabi-gcc for MSP432.
+
+## Follow-up — 20 November 2026
+
+Reproduced and fixed macOS HOST portability defects: Apple's linker requires a different map-file flag, its sanitizer build does not accept the GNU no-PIE option, and older make timestamp resolution could silently reuse objects when COURSE1/VERBOSE changed quickly. Configuration changes now force compilation/linking, and the successful configuration is recorded only after linking succeeds. Unchanged builds remain incremental. Warning-as-error and ASan/UBSan checks are retained.
+
+Local macOS HOST validation passed all eight supplied assessments, switch/rebuild checks without cleaning, 82,225 overlap cases versus libc memmove, signed/base conversions, allocation/reverse/fill/copy/statistics checks and ASan/UBSan. Leak detection remains disabled for the existing documented environment limitation. ARM compilation/hardware execution were not rerun in this follow-up. A read-only pinned-action CI matrix now checks Ubuntu and macOS HOST builds. Original course attribution and component notices remain intact.

@@ -42,7 +42,16 @@ endif
 ifeq ($(VERBOSE),1)
 CPPFLAGS += -DVERBOSE
 endif
+# Darwin HOST uses Apple's linker; MSP432 and other HOSTs use GNU syntax.
+ifeq ($(PLATFORM),HOST)
+ifeq ($(shell uname -s),Darwin)
+LDFLAGS = -Wl,-map,$(TARGET).map
+else
 LDFLAGS = -Wl,-Map=$(TARGET).map
+endif
+else
+LDFLAGS = -Wl,-Map=$(TARGET).map
+endif
 
 ifeq ($(PLATFORM),MSP432)
 CC = arm-none-eabi-gcc
@@ -66,6 +75,14 @@ endif
 
 OBJS = $(SOURCES:.c=.o)
 DEPS = $(SOURCES:.c=.d)
+# Older HOST make versions compare timestamps at one-second resolution. A
+# changed configuration must force objects AND linking even within that second.
+CONFIG_KEY = $(PLATFORM)-$(COURSE1)-$(VERBOSE)
+ifneq ($(shell cat .build-config 2>/dev/null),$(CONFIG_KEY))
+CONFIG_FORCE = force-config-change
+.PHONY: force-config-change
+force-config-change:
+endif
 # Rebuild when platform, COURSE1, or VERBOSE changes without make clean.
 PLATFORM_STAMP = .config-$(PLATFORM)-$(COURSE1)-$(VERBOSE)
 $(PLATFORM_STAMP):
@@ -78,16 +95,17 @@ build: $(TARGET).out
 all Build: build
 compile-all: $(OBJS)
 
-$(TARGET).out: $(OBJS) $(LINKER_FILE) Makefile sources.mk $(PLATFORM_STAMP)
+$(TARGET).out: $(OBJS) $(LINKER_FILE) Makefile sources.mk $(PLATFORM_STAMP) $(CONFIG_FORCE)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
+	@printf '%s\n' '$(CONFIG_KEY)' > .build-config
 
-%.o: %.c Makefile sources.mk $(PLATFORM_STAMP)
+%.o: %.c Makefile sources.mk $(PLATFORM_STAMP) $(CONFIG_FORCE)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -MMD -MP -MF $(@:.o=.d) -MT "$*.o $*.i $*.asm" -c $< -o $@
 
-%.i: %.c Makefile sources.mk $(PLATFORM_STAMP)
+%.i: %.c Makefile sources.mk $(PLATFORM_STAMP) $(CONFIG_FORCE)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -MMD -MP -MF $(@:.i=.d) -MT "$*.o $*.i $*.asm" -E $< -o $@
 
-%.asm: %.c Makefile sources.mk $(PLATFORM_STAMP)
+%.asm: %.c Makefile sources.mk $(PLATFORM_STAMP) $(CONFIG_FORCE)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -MMD -MP -MF $(@:.asm=.d) -MT "$*.o $*.i $*.asm" -S $< -o $@
 
 $(TARGET).asm: $(TARGET).out
@@ -95,7 +113,7 @@ $(TARGET).asm: $(TARGET).out
 
 
 clean:
-	rm -f *.o *.d *.dep *.i *.asm *.map *.out .config-*
+	rm -f *.o *.d *.dep *.i *.asm *.map *.out .config-* .build-config
 Clean: clean
 
 -include $(DEPS)
